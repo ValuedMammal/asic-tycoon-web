@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>asic-tycoon</title>
+
+    <style>
+      .clock {
+        text-align: left;
+        padding: 2em;
+      }
+      .panel {
+        padding-top: 1em;
+        margin-left: 60%;
+        margin-right: 5%;
+      }
+      .world {
+        border: solid;
+        width: 80%;
+        height: 10em;
+      }
+      .tb {
+        text-align: right;
+      }
+      th {
+        padding: 1em;
+      }
+      td {
+        padding: 1em;
+      }
+      .invent {
+        margin-left: 70%;
+        margin-right: 5%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <noscript>This page contains webassembly and javascript content, please enable javascript in your browser.</noscript>
+    <script src="./bootstrap.js"></script>
+
+    <!-- Blocks -->
+    <div class="clock">
+      <p>block height</p>
+      <p id="height">750001</p>
+    </div>
+
+    <!-- New Player -->
+    <div style="text-align: center;">
+      <div>
+        <label for="name">New Player</label>
+        <input autocomplete="off" id="name" placeholder="name" type="text">
+        <label for="name">Starting block</label>
+        <input id="init-height" placeholder="height" min="0" max="1000000" type="number" value="0">
+      </div><br>
+      <div>
+        <label for="init-hash">block hash</label>
+        <input disabled id="block-hash" size="65" type="text">
+        <button id="guess">Hash!</button>
+      </div><br>
+        <div>
+          <button id="step">Step</button>
+          <button id="start">Start</button>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="panel">
+      <!-- Network -->    <!-- Budget -->   <!-- Player -->
+      <!-- net-hash -->   <!-- ops -->      <!-- money -->
+      <!-- subsidy -->    <!-- legal -->    <!-- hash -->
+      <!-- price -->      <!-- pmt -->      <!-- share -->
+      <table class="tb">
+        <tr>
+          <th style="text-align: left;">Network</th>
+          <th></th>
+          <th style="text-align: center;">Budget</th>
+          <th></th>
+          <th></th>
+          <th>Player</th>
+        </tr>
+        <tr>
+          <td style="text-align: left;">Hashrate</td>
+          <td id="net-hash">200</td>
+          <td style="text-align: center;">Operations</td>
+          <td id="ops">1</td>
+          <td style="text-align: center;">Wallet (btc)</td>
+          <td id="money">0</td>
+        </tr>
+        <tr>
+          <td style="text-align: left;">Subsidy</td>
+          <td id="subsidy">6.25</td>
+          <td style="text-align: center;">Legal</td>
+          <td id="legal">1</td>
+          <td style="text-align: center;">Hash</td>
+          <td id="hash">0</td>
+        </tr>
+        <tr>
+          <td style="text-align: left;">Price (sats/vbuck)</td>
+          <td id="price">5000</td>
+          <td style="text-align: center;">DebtService</td>
+          <td id="pmt">0</td>
+          <td style="text-align: center;">%TotalHash</td>
+          <td id="share">0</td>
+        </tr>
+      </table>
+    </div>
+    
+    <!-- Map -->
+    <div class="world">
+      <label for="level">Region</label>
+      <select id="level">
+        <option>Village</option>
+        <option>Metro</option>
+        <option>Island</option>
+        <option>Jungle</option>
+        <option>Arctic</option>
+      </select>
+
+      <label for="mkt">Market</label>
+      <select id="mkt">
+        <option id="asic">Asics</option>
+        <option id="fin">Finance</option>
+        <option id="build">Buildings</option>
+        <option id="energy">Energy</option>
+        <option id="city">City</option>
+      </select>
+      
+      <select id="item">
+      </select>
+        <script>
+          // Sets item dropdown list given market selected
+          var f = document.getElementById('fin');
+          var b = document.getElementById('build');
+          var e = document.getElementById('energy');
+          var c = document.getElementById('city');
+          var mkt = document.getElementById('mkt');
+          var items = document.getElementById('item');
+
+          const def = '<option value="a1">S9</option>\
+            <option value="a2">S17</option>\
+            <option value="a3">S19</option>'
+          
+          // Set default item options
+          document.addEventListener('DOMContentLoaded', function() {
+            items.innerHTML = def;
+          })
+          
+          // Listen for change to market select
+          mkt.addEventListener('change', function() {
+            // read market selected
+            if (f.selected == true)
+            {
+              // create item options
+              items.innerHTML = 
+                '<option value="f1">Voucher</option> \
+                <option value="f2">Loan</option>';
+            }
+            else if (b.selected == true)
+            {
+              items.innerHTML = 
+                '<option value="s1">Garage</option> \
+                <option value="s2">Warehouse</option> \
+                <option value="s3">Foundry</option>';
+            }
+            else if (e.selected == true)
+            {
+              items.innerHTML = 
+                '<option value="e1">Hydro</option>  \
+                <option value="e2">NatGas</option>  \
+                <option value="e3">GeoTherm</option>  \
+                <option value="e4">Nuclear</option>';
+            }
+            else if (c.selected == true)
+            {
+              items.innerHTML = 
+                '<option value="g1">CityHall</option>  \
+                <option value="g2">Capitol</option>';
+            }
+            else
+            {  
+              items.innerHTML = def;
+            }
+          })
+        </script>
+      
+      <label for="qty">Quantity</label>
+      <input id="qty" type="number">
+      
+      <button id="trade">Trade</button>
+    </div>
+
+    <!-- Log -->
+    <div>
+      <p id="log" style="font-style: italic;"></p>
+    </div>
+    
+    <div class="invent">
+      <!-- Inventory -->            <!-- Debt -->
+      <!-- voucher (vbucks) -->     <!-- debt -->
+      <!-- space (sq m) -->         <!-- (empty) -->
+      <!-- power (watts) -->        <!-- (empty) -->
+      <!-- gov (n) -->              <!-- (empty) -->
+      <table class="tb">
+        <tr>
+          <th></th>
+          <th>Inventory</th>
+          <th></th>
+          <th>Debt</th>
+        </tr>
+        <tr>
+          <td style="text-align: left;">Vouchers (vbucks)</td>
+          <td id="voucher">1000</td>
+          <td style="text-align: left;">LoanBal</td>
+          <td id="debt">0</td>
+        </tr>
+        <tr>
+          <td style="text-align: left;">Space (sq m)</td>
+          <td id="space">1</td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td style="text-align: left;">Power (watts)</td>
+          <td id="power">1</td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td style="text-align: left;">Goodwill (%)</td>
+          <td id="gov">0</td>
+          <td></td>
+          <td></td>
+        </tr>
+      </table>
+    </div>
+    
+    <div style="max-width: 50%">
+      <p>Rules: Accumulate as much hashrate as possible. You earn sats as new blocks are mined. The default block speed is 10 blocks per refresh (around 5sec), but this can be configured.</p>
+      
+      <p>But first: You can't mine with no inventory, so before hitting 'Start', you'll need to bootstrap your operation. Click the 'Hash!' button a few times until you get a 'Ready' confirmation.</p>
+      
+      <p>Gameplay: Try to build and optimize your asset mix. As you advance, new market opportunities will become available. Buying an item will consume your vouchers balance first before consuming sats. Selling an item will add sats to your main wallet.</p>
+      
+      <p>You need to remain solvent, so keep an eye on your budget. A larger operation means greater operational costs, and a larger loan balance means greater debt service payments, etc. Budget expenses are automatically deducted every 1000 blocks.</p>
+    </div>
+    <pre>
+        ___   _____ _____ _____   _____                           
+       / _ \ /  ___|_   _/  __ \ |_   _|                          
+      / /_\ \\ `--.  | | | /  \/   | |_   _  ___ ___   ___  _ __  
+      |  _  | `--. \ | | | |       | | | | |/ __/ _ \ / _ \| '_ \ 
+      | | | |/\__/ /_| |_| \__/\   | | |_| | (_| (_) | (_) | | | |
+      \_| |_/\____/ \___/ \____/   \_/\__, |\___\___/ \___/|_| |_|
+                                       __/ |                      
+                                      |___/                       
+    
+    </pre>
+  </body>
+</html>

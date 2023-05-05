@@ -1,0 +1,36 @@
+{
+  "name": "asic-tycoon",
+  "version": "0.1.0",
+  "description": "Demo and proof of concept for ASIC Tycoon the game",
+  "main": "index.js",
+  "bin": {
+    "create-wasm-app": ".bin/create-wasm-app.js"
+  },
+  "scripts": {
+    "build": "webpack --config webpack.config.js",
+    "start": "webpack-dev-server"
+  },
+  "repository": {
+    "type": "git"
+  },
+  "keywords": [
+    "wasm",
+    "rust",
+    "btc"
+  ],
+  "author": "Val <valuedmammal@protonmail.com>",
+  "license": "UNLICENSED",
+  "bugs": {
+  },
+  "homepage": "",
+  "dependencies": {
+    "asic-tycoon": "file:../pkg"
+  },
+  "devDependencies": {
+    "hello-wasm-pack": "^0.1.0",
+    "webpack": "^5.82.0",
+    "webpack-cli": "^5.0.2",
+    "webpack-dev-server": "^4.13.3",
+    "copy-webpack-plugin": "^5.0.0"
+  }
+}

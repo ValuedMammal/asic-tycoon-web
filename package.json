@@ -24,7 +24,7 @@
   },
   "homepage": "",
   "dependencies": {
-    "asic-tycoon": "file:../pkg"
+    "asic-tycoon": "^0.1.0"
   },
   "devDependencies": {
     "hello-wasm-pack": "^0.1.0",

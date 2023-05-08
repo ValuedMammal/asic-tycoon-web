@@ -40,7 +40,7 @@ guess.addEventListener('click', function() {
         // set player hashrate
         // less time to solve means a better starting hash
         let h;
-        let goal = target; // e.g. 10sec
+        let goal = target + 1; // e.g. 10sec
         if (t == goal) {h = 1;}
         else if (t >= 55) {h = 0.1;}
         else if (t < goal)

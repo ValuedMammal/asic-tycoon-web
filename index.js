@@ -19,20 +19,17 @@ let ctxId; // `load_refresh` interval ID
 // Bootstrap player's starting hashrate with
 // a proof-of-work minigame
 guess.addEventListener('click', function() {
-    if (!begin)
-    {
+    if (!begin) {
         // set begin time and guess a number
         begin = new Date().getTime();
         n = Math.floor(Math.random() * 10);
-    }
-    else 
-    {
+    } 
+    else {
         // generate random guess
         n = Math.floor(Math.random() * 10);
     }
 
-    if (n >= target)
-    {
+    if (n >= target) {
         // record elapsed time
         let now = new Date().getTime();
         let t = Math.floor((now - begin) / 1000);
@@ -43,12 +40,10 @@ guess.addEventListener('click', function() {
         let goal = target + 1; // e.g. 10sec
         if (t == goal) {h = 1;}
         else if (t >= 55) {h = 0.1;}
-        else if (t < goal)
-        {
+        else if (t < goal) {
             h = 10 - ((t / goal) * 10); // e.g. (5sec, 5hash)
         }
-        else 
-        {
+        else {
             // (t > goal, t < 55)
             h = 1 - ((t - 10) / 50); // e.g. (35sec, 0.5hash)
         }
@@ -59,19 +54,17 @@ guess.addEventListener('click', function() {
         guess.toggleAttribute('disabled');
     }
     
-    // Make a string the resembles a sha256
+    // Make a string that resembles a sha256
     let s = '';
     
     // Push '0' n times, where n is our guess
-    for (let i = 0; i < n; ++i)
-    {
+    for (let i = 0; i < n; ++i) {
         s += '0';
     }
     
     // Push a random digit to fill the length
-    while (s.length < 64 - n) 
-    {
-        let dec = Math.floor(Math.random() * 15);
+    while (s.length < 64 - n) {
+        let dec = Math.floor(Math.random() * 16);
         let hex = dec.toString(16);
         s += hex;
     }
@@ -81,12 +74,10 @@ guess.addEventListener('click', function() {
 
 // Refresh UI on some interval
 start.addEventListener('click', function() {
-    if (hash.innerHTML == '0')
-    {
+    if (hash.innerHTML == '0') {
         alert("Haven't initialized a hashrate!");
     }
-    else if (!ctxId )
-    {
+    else if (!ctxId ) {
         ctxId = setInterval(function() {
             console.log('running new ctx!');
             wasm.load_refresh();
@@ -107,17 +98,14 @@ start.addEventListener('click', function() {
 
 // Step forward once
 step.addEventListener('click', function() {
-    if (ctxId != null)
-    {
+    if (ctxId != null) {
         clearInterval(ctxId);
         console.log('interval cleared');
     }
-    else if (hash.innerHTML == '0')
-    {
+    else if (hash.innerHTML == '0') {
         alert("Haven't initialized a hashrate!");
     }
-    else
-    {
+    else {
         console.log('refresh once');
         wasm.load_refresh();
     }
@@ -125,22 +113,18 @@ step.addEventListener('click', function() {
 
 // Exchange items
 trade.addEventListener('click', function() {
-    if (hash.innerHTML == '0')
-    {
+    if (hash.innerHTML == '0') {
         log.innerHTML = 'unauthorized';
     }
-    else 
-    {
+    else {
         let item = document.getElementById('item');
         let qty = document.getElementById('qty');
         
-        if (item != null && qty != null)
-        {
+        if (item != null && qty != null) {
             console.log('executing trade');
             wasm.exchange(item.value, qty.value);
         }
-        else 
-        {
+        else {
             console.log('unable to get item id');
         }
     }

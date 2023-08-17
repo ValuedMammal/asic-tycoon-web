@@ -14,7 +14,7 @@ const target = 9; // number of leading zeroes
 let begin; // start time
 let n; // new random guess
 let ctxId; // `load_refresh` interval ID
-
+let first = true;
 
 // Bootstrap player's starting hashrate with
 // a proof-of-work minigame
@@ -77,30 +77,34 @@ start.addEventListener('click', function() {
     if (hash.innerHTML == '0') {
         alert("Haven't initialized a hashrate!");
     }
-    else if (!ctxId ) {
+    else if (ctxId == 0) {
         ctxId = setInterval(function() {
             console.log('running new ctx!');
             wasm.load_refresh();
-        }, 5000)
+        }, 3000)
         
         console.log('started interval');
 
-        // set block height
-        document.getElementById('height').innerHTML = initialHeight.value;
-        
-        // clear input fields
-        let player = name.value;
-        console.log(`dropping name ${player}`);
-        name.value = '';
-        initialHeight.value = '';
+        if (first) {
+            // set block height
+            document.getElementById('height').innerHTML = initialHeight.value;
+            
+            // clear input fields
+            let player = name.value;
+            console.log(`dropping name ${player}`);
+            name.value = '';
+            initialHeight.value = '';
+            first = false;
+        }
     }
 });
 
 // Step forward once
 step.addEventListener('click', function() {
-    if (ctxId != null) {
+    if (ctxId !== 0) {
         clearInterval(ctxId);
         console.log('interval cleared');
+        ctxId = 0;
     }
     else if (hash.innerHTML == '0') {
         alert("Haven't initialized a hashrate!");

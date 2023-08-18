@@ -1,0 +1,54 @@
+## Gameplay
+
+Rules (from the main game screen):  
+> Accumulate as much hashrate as possible. You earn sats as new blocks are mined. The default block speed is 10 blocks per refresh (around 3sec), but this can be configured.
+>      
+> But first: You can't mine with no inventory, so before hitting 'Start', you'll need to bootstrap your operation. Click the 'Hash!' button a few times until you get a 'Ready' confirmation.
+>
+>Gameplay: Try to build and optimize your asset mix. As you advance, new market opportunities will become available. Buying an item will consume your vouchers balance first before consuming sats. Selling an item will add sats to your main wallet.
+>
+>You need to remain solvent, so keep an eye on your budget. A larger operation means greater operational costs, and a larger loan balance means greater debt service payments, etc. Budget expenses are automatically deducted every 1000 blocks.
+
+## Rationale
+Why make this game?
+
+Given the popularity of simulation and strategy games combined with the pervasive hype (and confusion) surrounding blockchains, it seems natural that a game like this should be made. In fact it remains an overarching goal of this project to not only provide a fun and engaging experience but also one that serves to educate current and future bitcoin users, to integrate related concepts of energy and economics, and finally to correct some common myths and misconceptions around these subjects in hopes of raising the general zeitgeist and quality of debate. 
+
+Another benefit of simulation-style games is that the closer we can approximate behavior in the real world, the better players will be prepared to actually put their knowledge to work in practice. This can include bitcoin mining itself, or simply becoming a more effective money manager in their own personal economy. It's certainly not our goal to lure players with promises of wealth or promote high risk taking behavior - rather to teach the significance of bitcoin in a global economy and thereby circumvent much of the unsavory aspects that have plagued our industry from the start.
+
+By simply playing a game in a way that's intuitive and self-describing, it's our hope that players will naturally absorb some of these critical concepts (below) that might otherwise pose a challenge to understanding in a more rigorous context: 
+
+- the role of mining in the bitcoin network
+- thinking quantitatively, understanding logs/exponentials
+- btc/sats as a unit of account
+- block time as a fundamental constant
+- economics, scarcity, and opportunity cost
+- pros and cons of financial leverage
+- interaction of business and government
+- energy density, power and efficiency
+- trade-off between investment and ROI
+
+There may be a number of different game modes. For instance the player may choose **1)** A campaign that starts from genesis and simulates actual or similar historical data, **2)** A real-time simulation that uses data from bitcoin's mainnet as it occurs, **3)** A game in which all bitcoin data is random and fictitious. Any of these variations should be playable in a single- or multi-player context.
+
+As mentioned, the player's goal is to accumulate hashrate. Note this is subtly distinct from saying the goal is to accumulate money or to conquer territory as is common in other games, but we think optimizing for hashrate most closely reflects real world dynamics. Right from the start, we're introduced to a novel concept which guides the player's future decisions. Hashrate, specifically the players proportion to the total network hashing capacity, is therefore the main axis of game difficulty. We have hardcoded a constraint that limits the player's own hash power to <45% of total network hash. This figure may be arbitrary in terms of game design, but it is arguably a key factor in bitcoin's security model. In terms of gameplay, it should be virtually impossible to achieve this result (45%), or take an extreme number of gameplay hours. So naturally, the player will begin by buying ASICs. Since total hashrate shows a tendency to increase exponentially, the user *must* purchase hash to ensure his/her share of the total doesn't diminish. 
+
+The user starts with all inventory slots empty, save for 1000 units of cash. Other inventory categories include physical space, power capacity, and reputation. The user starts with a zero bitcoin balance as well, but that invariably grows as blocks are found. As alluded to in the Rules, the user bootstraps the initial endowment of hashpower with a proof-of-work "minigame" that requires little effort beyond clicking a button, however the real insight here is that we get to see what it means to produce a hash, in this case a 64-character hex string with some number of leading zeroes. Simple though it is, this exercise helps visualize and demystify what a miner actually does - in essence, dedicating resources to participate in a lottery. We can intuitively see that requiring more leading zeroes in the hash makes it more difficult to find.
+
+To purchase more ASICs faster, the user can lever up his cash holdings by taking on debt, and this of course comes with the cost of debt service payments. This method is entirely optional, and it's not clear that taking out loans is a necessary part of the game. Afterall it only adds programming complexity. Nonetheless it's something we all relate to, and again gives us as game developers the opportunity to show that bad things happen when we become over leveraged. In fact, the only way to lose the game is to run out of money when budget expenses inevitably arise. Even if we carry no outstanding loans, we're forced to deal with budget expenses in terms of operating and legal costs which are designed to grow with the size of our mining operation.
+
+Even if the user decides to take the risky path by levering up his/her assets, the user soon discovers that it's not just capital that limits expansion but access to physical space, and this introduces the next major strategic game element: real estate. We need somewhere to house our mining equipment. We can get creative here in terms of design by placing areas of interest on the game map such as a garage, a warehouse, etc with different square footage. These can be unlockable items or exist in unlockable areas of the world.
+
+The player has two (pretend) wallets: one with a cash balance and the other a bitcoin wallet. Dealing in two different currencies poses a challenge to how we price items the user might wish to buy. We have to decide in which currency to quote the cost of tradable items. Do prices change over time? Are some expenses only payable in fiat? The conventional approach is to quote prices of items in fiat terms. This translates to spending more bitcoin early in the game when the exchange rate is low and spending comparatively fewer coins for a given item as price rises. Unless we use actual historical price data, we need a way to simulate bitcoin price. Hypothetically the bitcoin exchange rate as a function of time might look something like the this: 
+
+>*y* = log<sub>2</sub> *x* + sin(*x*)
+
+![](./price-curve.jpg?raw=true)
+
+If the first half of the game is about procuring space, the second half of the game is all about energy. Different geographic regions of the map are conducive to different sources of power. The places we choose to explore influence the kinds of energy assets we can acquire. We can imagine that once the player has accumulated enough experience, he/she can begin shopping for top-tier items. These tentatively include things like a chip foundry and a nuclear power plant. The strategic appeal of these high-value items lies in their ability to greatly reduce operating costs. For example by vertically integrating operations and owning the means of power production, the player is able to defray energy costs that would otherwise be paid at market rates. Interestingly, we can make a statement about sustainability by encouraging the player to *reduce* their overall geographic footprint in favor of more natural scenery by adopting more efficient sources of power. It's not an aim of the game to cover the entire map with mining facilities. On the contrary, the map should be beautiful to look at. It is through technological advances that we're able to pack large amounts of compute into a small area. We think designing the game with an eye toward sustainability can help move the discussion forward with regard to bitcoin's energy use.
+
+A similar upgrade path exists for government assets, or what we've dubbed "goodwill." To reflect bitcoin's emergence in an evolving financial system, legal compliance remains a reality to contend with, which we simulate as a line item in the player's budget expense. This might also arise in the form of one-time expenses when purchasing land or buildings. Suppose the player has an opportunity to advance to a new area of the world but doing so requires the player to possess certain licenses or stamps of approval. These again would fall under legal expenses. In an extreme scenario, we can imagine the user pays a large sum to "buy" the town capitol or post office building. The benefit would then be something like a 95% decrease in ongoing legal costs. It would make sense for this type of opportunity to present itself only very late in the game. There may be other as yet unexplored avenues for gaining goodwill points which would provide incremental benefits to the user.
+
+Like other role-playing games, we leave it open-ended - you don't win, per se, you just explore to your heart's content. One of the morals to be gleaned is that strategic success depends not only on sheer wealth but how one navigates the physical constraints of the world, opportunity cost, relationships, and cooperation. Along the way, the player gains a deeper understanding of bitcoin and how it's integrated in a global system.
+
+## Design
+This particular demo consists of an HTML/JS webpage containing a WebAssembly module. The benefit of this style is that the game runs entirely on the client side, thus removing the typical request/response cycle. A minimum amount of javascript is needed to listen for DOM events and for calling into the wasm binary. The rest of the business logic is written in rust with wasm as the compilation target (using wasm-pack). While this was a fine setup for a small proof of concept, future iterations may see the code ported to other language/platforms such as mobile. Incorporating real-time data would obviously require a network connection and more frequent http calls. The project is still in need of artistic direction. One can imagine different approaches: it might look like an interactive game map that caters to a casual audience, or it may feel more like a data-centric mining dashboard.
